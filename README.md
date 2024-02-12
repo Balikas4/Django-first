@@ -1,0 +1,2 @@
+# Django-first
+Learning Django
