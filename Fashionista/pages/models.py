@@ -27,9 +27,9 @@ class Wardrobe(models.Model):
     name = models.CharField(_("name"), max_length=50)
     owner = models.ForeignKey(
         get_user_model(), 
-        verbose_name=_("wardrobe"), 
+        verbose_name=_("owner"), 
         on_delete=models.CASCADE,
-        related_name = 'wardrobbes'
+        related_name = 'wardrobe'
         )
     
     class Meta:
@@ -50,13 +50,13 @@ class Listing(models.Model):
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2)
     wardrobe = models.ForeignKey(
         Wardrobe, 
-        verbose_name=_("listing"), 
+        verbose_name=_("wardrobe"), 
         on_delete=models.CASCADE,
         related_name = 'listings',
         )
     owner = models.ForeignKey(
         get_user_model(), 
-        verbose_name=_("listing"), 
+        verbose_name=_("owner"), 
         on_delete=models.CASCADE,
         related_name = 'listings',
         )

@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 class WardrobeAdmin(admin.ModelAdmin):
     list_display = ['name', 'owner', 'total_listings', 'available_listings', 'recent_listings']
-    list_display_links = ['name']
+    list_display_links = ['name', 'owner']
     list_filter = ['owner']
     search_fields = ['name', 'owner']
     readonly_fields = ['total_listings']
@@ -34,10 +34,11 @@ class WardrobeAdmin(admin.ModelAdmin):
 
 
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'description', 'is_available', 'created_at', 'updated_at', 'owner', 'wardrobe']
+    list_display = ['id', 'name', 'price', 'description', 'is_available', 'created_at', 'updated_at', 'owner', 'wardrobe']
     list_filter = ['is_available', 'created_at', 'is_available', 'wardrobe']
     search_fields = ['name', 'description', 'listing__name', 'owner__last_name', 'wardrobe__name']
     list_editable = ['is_available']
+    list_display_links = ['owner', 'wardrobe']
     readonly_fields = ['id', 'created_at', 'updated_at']
     fieldsets = (
         (_("general").title(), {
