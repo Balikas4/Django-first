@@ -29,7 +29,7 @@ class Wardrobe(models.Model):
         get_user_model(), 
         verbose_name=_("wardrobe"), 
         on_delete=models.CASCADE,
-        related_name = 'wardrobe'
+        related_name = 'wardrobbes'
         )
     
     class Meta:
@@ -50,15 +50,15 @@ class Listing(models.Model):
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2)
     wardrobe = models.ForeignKey(
         Wardrobe, 
-        verbose_name=_("project"), 
+        verbose_name=_("listing"), 
         on_delete=models.CASCADE,
-        related_name = 'listing',
+        related_name = 'listings',
         )
     owner = models.ForeignKey(
         get_user_model(), 
-        verbose_name=_("owner"), 
+        verbose_name=_("listing"), 
         on_delete=models.CASCADE,
-        related_name = 'listing',
+        related_name = 'listings',
         )
     created_at = models.DateTimeField(_("created at"), auto_now_add=True, db_index = True)
     updated_at = models.DateTimeField(_("updated at"), auto_now=True, db_index = True)
