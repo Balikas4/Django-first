@@ -6,6 +6,13 @@
     <title>Listings</title>
 </head>
 <body>
+    <header>
+        <span class="logo">Fashionista</span>
+        <ul>
+            <li><a href="{% url 'index' %}">Dashboard</a></li>
+            <li><a href="{% url 'rental_list' %}">Listings</a></li>
+        </ul>
+    </header>
     <main>{% block content %}{% endblock %}</main>
 </body>
 </html>
