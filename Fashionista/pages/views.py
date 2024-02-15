@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse
 from . import models
+from django.utils.translation import gettext_lazy as _
 
 def index(request: HttpRequest) -> HttpResponse:
     context = {
@@ -25,8 +26,11 @@ def listing_available(request: HttpRequest, pk:int) -> HttpResponse:
     listing = get_object_or_404(models.Listing, pk=pk)
     listing.is_available = not listing.is_available
     listing.save()
-    messages.success(request, f"Listing {listing.name} marked as {'available' if listing.is_available else 'unavailable'}")
-    if request.GET.get('next'):
-        return redirect(request.GET.get('next'))
+    messages.success(request, "{} {} {} {}".format(
+        _('listing').capitalize(),
+          listing.name,
+        _('marked as'),
+        _('available') if listing.is_available else _('unavailable'),
+    ))
     return redirect(rental_list)
 

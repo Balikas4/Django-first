@@ -1,0 +1,142 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-15 10:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <= 9) ? 1 : 2);\n"
+
+#: pages/admin.py:23
+msgid "total listings"
+msgstr "viso skelbimų"
+
+#: pages/admin.py:28
+msgid "available listings"
+msgstr "prieinamų skelbimų"
+
+#: pages/admin.py:33
+msgid "recent listings"
+msgstr "naujausi skelbimai"
+
+#: pages/admin.py:44
+msgid "general"
+msgstr "bendri"
+
+#: pages/admin.py:50
+msgid "ownership"
+msgstr "nuosavybė"
+
+#: pages/admin.py:55
+msgid "temporal tracking"
+msgstr "laiko sekimas"
+
+#: pages/apps.py:10 pages/models.py:17
+msgid "pages"
+msgstr "puslapiai"
+
+#: pages/models.py:8 pages/models.py:27 pages/models.py:48
+msgid "name"
+msgstr "vardas"
+
+#: pages/models.py:11 pages/models.py:16
+msgid "page"
+msgstr "puslapis"
+
+#: pages/models.py:30 pages/models.py:59
+msgid "owner"
+msgstr "savininkas"
+
+#: pages/models.py:36 pages/models.py:53
+msgid "wardrobe"
+msgstr "spinta"
+
+#: pages/models.py:37
+msgid "wardrobes"
+msgstr "spintos"
+
+#: pages/models.py:49
+msgid "description"
+msgstr "aprašymas"
+
+#: pages/models.py:50
+msgid "price"
+msgstr "kaina"
+
+#: pages/models.py:63
+msgid "created at"
+msgstr "sukurta"
+
+#: pages/models.py:64
+msgid "updated at"
+msgstr "atnaujinta"
+
+#: pages/models.py:65
+msgid "is available"
+msgstr "yra prieinama"
+
+#: pages/models.py:68 pages/views.py:30
+msgid "listing"
+msgstr "skelbimas"
+
+#: pages/models.py:69 pages/templates/base.html:16
+msgid "listings"
+msgstr "skelbimai"
+
+#: pages/templates/base.html:8 pages/templates/listings/index.html:6
+#: pages/templates/listings/rental_list.html:5
+msgid "Listings"
+msgstr "Skelbimai"
+
+#: pages/templates/base.html:15
+msgid "dashboard"
+msgstr "skydelis"
+
+#: pages/templates/base.html:27
+msgid "Do your own research"
+msgstr "Atlikite savo tyrimą"
+
+#: pages/templates/listings/details.html:10
+msgid "Price"
+msgstr "Kaina"
+
+#: pages/templates/listings/details.html:12
+msgid "Created"
+msgstr "Sukurta"
+
+#: pages/templates/listings/details.html:14
+msgid "updated"
+msgstr "atnaujinta"
+
+#: pages/templates/listings/index.html:4
+msgid "Dashboard"
+msgstr "Skydelis"
+
+#: pages/templates/listings/index.html:5
+msgid "Users"
+msgstr "Vartotojai"
+
+#: pages/templates/listings/index.html:7
+msgid "Wardrobes"
+msgstr "Spintos"
+
+#: pages/templates/listings/rental_list.html:14
+msgid "No listings found"
+msgstr "Skelbimų nerasta"
+
+#: pages/views.py:32
+msgid "marked as"
+msgstr "pažymėta kaip"
+
+#: pages/views.py:33
+msgid "available"
+msgstr "prieinama"
+
+#: pages/views.py:33
+msgid "unavailable"
+msgstr "neprieinama"

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block title %}{{ block.super }} list{% endblock title %}
 {% block content %}
-<h1>Listings</h1>
+<h1>{% trans "Listings" %}</h1>
 <ul>
 {% for listing in rental_list %}
 <li><a href="{% url "is_available" listing.pk %}">
@@ -10,7 +11,7 @@
     <span style="float:right;">{{ listing.price }}</span>
 </li>
 {% empty %}
-<li>No listings found</li>
+<li>{% trans "No listings found" %}</li>
 {% endfor %}
 </ul>
 {% endblock content %}

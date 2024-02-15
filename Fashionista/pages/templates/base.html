@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static i18n %}
 {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listings</title>
+    <title>{% trans "Listings" %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
         <span class="logo">Fashionista</span>
-        <ul>
-            <li><a href="{% url 'index' %}">Dashboard</a></li>
-            <li><a href="{% url 'rental_list' %}">Listings</a></li>
+        <ul class="nav">
+            <li><a href="{% url 'index' %}">{% trans "dashboard"|capfirst %}</a></li>
+            <li><a href="{% url 'rental_list' %}">{% trans "listings"|capfirst %}</a></li>
         </ul>
     </header>
     <section class="messages">
@@ -23,7 +24,7 @@
     <main>{% block content %}{% endblock %}</main>
     <footer>
         {% block footer %}{% endblock footer %}
-        <p>&copy; 2023-2024 <a href="https://www.google.com/" target="_blank">Do your own research</a></p>
+        <p>&copy; 2023-2024 <a href="https://www.google.com/" target="_blank">{% trans "Do your own research" %}</a></p>
     </footer>
 </body>
 </html>

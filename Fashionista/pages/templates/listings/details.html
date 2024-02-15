@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block title %}{{ block.super }} | {{ row }}{% endblock title %}
 {% block content %}
 <h1><a href="{% url "is_available" listing.pk %}">
@@ -6,11 +7,11 @@
     {{ listing.name }}
 </h1>
 <p>{{ listing.owner }} / {{ listing.wardrobe }}</p>
-<p>Price: {{ listing.price }}</p>
+<p>{% trans "Price" %}: {{ listing.price }}</p>
 <p>{{ listing.description }}</p>
-<p>Created: {{ listing.created_at }}, 
+<p>{% trans "Created" %}: {{ listing.created_at }}, 
     {% if listing.created_at != listing.updated_at %}
-        updated: {{ listing.updated_at }}
+        {% trans "updated" %}: {{ listing.updated_at }}
     {% endif %}
 </p>
 {% endblock content %}
