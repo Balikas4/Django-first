@@ -129,3 +129,11 @@ header ul.nav li a:hover, header ul.nav li form button:hover {
     border-bottom: 2px solid #0055cc;
     color: #0055cc;
 }
+
+.spacer {
+    flex-grow: 1;
+}
+header form select {
+    margin: 1rem;
+    font-size: 100%;
+}
