@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ block.super }} list{% endblock title %}
+{% block content %}
+<h1>{% trans "Wardrobes" %}</h1>
+<ul>
+{% for wardrobe in wardrobe_list %}
+<li><a href="{% url "is_for_sale" wardrobe.pk %}">
+    {% if wardrobe.is_for_sale %}&#x2611;{% else %}&#x2610;{% endif %}</a>
+    <a href="{% url "wardrobe_details" wardrobe.pk %}">{{ wardrobe.name }}</a>
+    <span style="float:right;">{{ wardrobe.listings.count }} {% trans "listings" %}</span>
+</li>
+{% empty %}
+<li>{% trans "No wardrobes found" %}</li>
+{% endfor %}
+</ul>
+{% endblock content %}

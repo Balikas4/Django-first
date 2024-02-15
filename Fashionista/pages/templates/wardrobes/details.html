@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ block.super }} | {{ wardrobe.name }}{% endblock title %}
+{% block content %}
+  <h1>{{ wardrobe.name }}</h1>
+  <p>{% trans "Owner" %}: {{ wardrobe.owner }}</p>
+  <p>{% trans "Is for Sale" %}: {% if wardrobe.is_for_sale %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</p>
+  <h2>{% trans "Listings in wardrobe" %}:</h2>
+  <ul>
+    {% for listing in wardrobe.listings.all %}
+      <li>
+        <a href="{% url "is_available" listing.pk %}">
+          {% if listing.is_available %}&#x2611;{% else %}&#x2610;{% endif %}
+        </a>
+        <a href="{% url "listing_details" listing.pk %}">{{ listing.name }}</a>
+        <p>{% trans "Price" %}: {{ listing.price }}</p>
+        <p>{% trans "Created at" %}: {{ listing.created_at }}</p>
+        <p>{% trans "Updated at" %}: {{ listing.updated_at }}</p>
+        <p>{% trans "Description" %}: {{ listing.description }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

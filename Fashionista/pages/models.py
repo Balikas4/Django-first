@@ -31,6 +31,7 @@ class Wardrobe(models.Model):
         on_delete=models.CASCADE,
         related_name = 'wardrobe'
         )
+    is_for_sale = models.BooleanField(_("is for sale"), db_index = True, default = False)
     
     class Meta:
         verbose_name = _("wardrobe")

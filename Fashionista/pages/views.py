@@ -34,3 +34,24 @@ def listing_available(request: HttpRequest, pk:int) -> HttpResponse:
     ))
     return redirect(rental_list)
 
+def wardrobe_list(request: HttpRequest) -> HttpResponse:
+    return render(request, 'wardrobes/wardrobe_list.html', {
+        'wardrobe_list': models.Wardrobe.objects.all()
+    })
+
+def wardrobe_details(request: HttpRequest, pk: int) -> HttpResponse:
+    return render(request, 'wardrobes/details.html', {
+        'wardrobe': get_object_or_404(models.Wardrobe, pk=pk)
+    })
+
+def wardrobe_for_sale(request: HttpRequest, pk:int) -> HttpResponse:
+    wardrobe = get_object_or_404(models.Wardrobe, pk=pk)
+    wardrobe.is_for_sale = not wardrobe.is_for_sale
+    wardrobe.save()
+    messages.success(request, "{} {} {} {}".format(
+        _('wardrobe').capitalize(),
+          wardrobe.name,
+        _('marked as'),
+        _('for sale') if wardrobe.is_for_sale else _('not for sale'),
+    ))
+    return redirect(wardrobe_list)

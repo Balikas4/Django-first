@@ -10,12 +10,12 @@
 </head>
 <body>
     <header>
-        <span class="logo">Fashionista</span>
+        <img src="{% static 'fashionista.png' %}" alt="Fashionista Logo">
         <ul class="nav">
             <li><a href="{% url 'index' %}">{% trans "dashboard"|capfirst %}</a></li>
             <li><a href="{% url 'rental_list' %}">{% trans "listings"|capfirst %}</a></li>
+            <li><a href="{% url 'wardrobe_list' %}">{% trans "Wardrobes"|capfirst %}</a></li>
         </ul>
-        <span class="spacer"></span>
         <form action="{% url 'set_language' %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ redirect_to }}">

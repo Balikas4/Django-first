@@ -6,7 +6,7 @@
     {% if listing.is_available %}&#x2611;{% else %}&#x2610;{% endif %}</a>
     {{ listing.name }}
 </h1>
-<p>{{ listing.owner }} / {{ listing.wardrobe }}</p>
+<p>{{ listing.owner }} / <a href="{% url 'wardrobe_details' listing.wardrobe.pk %}">{{ listing.wardrobe }}</a></p>
 <p>{% trans "Price" %}: {{ listing.price }}</p>
 <p>{{ listing.description }}</p>
 <p>{% trans "Created" %}: {{ listing.created_at }}, 

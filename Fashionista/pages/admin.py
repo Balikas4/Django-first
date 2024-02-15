@@ -4,9 +4,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class WardrobeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'owner', 'total_listings', 'available_listings', 'recent_listings']
+    list_display = ['name', 'owner', 'total_listings', 'available_listings', 'recent_listings', 'is_for_sale']
     list_display_links = ['name', 'owner']
     list_filter = ['owner']
+    list_editable = ['is_for_sale']
     search_fields = ['name', 'owner']
     readonly_fields = ['total_listings']
     fieldsets = (
