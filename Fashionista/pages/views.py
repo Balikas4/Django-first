@@ -25,7 +25,7 @@ def listing_available(request: HttpRequest, pk:int) -> HttpResponse:
     listing = get_object_or_404(models.Listing, pk=pk)
     listing.is_available = not listing.is_available
     listing.save()
-    messages.success(request, f"Listing {listing.name} marked as {'done' if listing.is_available else 'undone'}")
+    messages.success(request, f"Listing {listing.name} marked as {'available' if listing.is_available else 'unavailable'}")
     if request.GET.get('next'):
         return redirect(request.GET.get('next'))
     return redirect(rental_list)
