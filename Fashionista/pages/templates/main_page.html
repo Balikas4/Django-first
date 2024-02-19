@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} | {% trans "Main Page" %}{% endblock title %}
+
+{% block content %}
+    <h1>{% trans "Welcome to Fashionista!" %}</h1>
+    <p>{% trans "Explore the latest listings and discover trendy wardrobes." %}</p>
+    <!-- Add more content as needed for your main page -->
+{% endblock content %}
+
+{% block footer %}
+    {# You can override or add additional content in the footer block if needed #}
+    {{ block.super }}
+{% endblock footer %}

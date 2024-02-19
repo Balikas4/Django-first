@@ -55,3 +55,7 @@ def wardrobe_for_sale(request: HttpRequest, pk:int) -> HttpResponse:
         _('for sale') if wardrobe.is_for_sale else _('not for sale'),
     ))
     return redirect(wardrobe_list)
+
+def main_page(request):
+    # Add any logic you want for the main page view
+    return render(request, 'main_page.html')  # Assuming you have a main_page.html template

@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'pages',
-    'rental_listings',
+    'user_profile',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -135,7 +135,9 @@ MEDIA_ROOT = BASE_DIR.joinpath(MEDIA_URL)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_REDIRECT_URL = '/'
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 try:
     from local_settings import *
