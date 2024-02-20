@@ -1,8 +1,13 @@
-{% extends "base.html" %}
-{% load i18n %}
-{% block title %}{{ block.super }} | {{ wardrobe.name }}{% endblock title %}
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{{ wardrobe.name }} | {{ block.super }}{% endblock title %}
 {% block content %}
   <h1>{{ wardrobe.name }}</h1>
+  {% if wardrobe.owner == request.user or request.user.is_superuser %}
+  <p>
+      <a class="button" href="{% url "wardrobe_update" wardrobe.pk %}">{% trans "edit"|capfirst %}</a>
+      <a class="button" href="{% url "wardrobe_delete" wardrobe.pk %}">{% trans "delete"|capfirst %}</a>
+  </p>
+{% endif %}
   <p>{% trans "Owner" %}: {{ wardrobe.owner }}</p>
   <p>{% trans "Is for Sale" %}: {% if wardrobe.is_for_sale %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</p>
   <h2>{% trans "Listings in wardrobe" %}:</h2>

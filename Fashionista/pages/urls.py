@@ -13,6 +13,8 @@ urlpatterns = [
     path('wardrobes/', views.WardrobeListView.as_view(), name='wardrobe_list'),
     path('wardrobe/<int:pk>/', views.WardrobeDetailView.as_view(), name='wardrobe_detail'),
     path('wardrobe/create/', views.WardrobeCreateView.as_view(), name='wardrobe_create'),
+    path('wardrobe/<int:pk>/edit/', views.WardrobeUpdateView.as_view(), name='wardrobe_update'),
+    path('wardrobe/<int:pk>/delete/', views.WardrobeDeleteView.as_view(), name='wardrobe_delete'),
 ]
 
 urlpatterns.extend(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))

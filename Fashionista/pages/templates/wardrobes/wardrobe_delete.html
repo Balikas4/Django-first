@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "delete a wardrobe at"|capfirst %} {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>{% trans "delete a wardrobe"|capfirst %}</h1>
+<form method="post" action="{{ request.path }}">
+    {% csrf_token%}
+    {{ form.as_p }}
+{% if wardrobe.owner == request.user %}
+    <p>
+        {% trans "are you sure you want to delete wardrobe" %}
+        {{ wardrobe.name }}? 
+        {% trans "all wardrobe's"|capfirst %} {{ wardrobe.listings.count }}
+        {% trans "listings will be deleted" %}.
+    </p>
+    <p>
+        <a class="button" href="{% url "wardrobe_update" wardrobe.pk %}">{% trans "edit"|capfirst %}</a>
+        <button type="submit" class="button" name="delete">{% trans "Delete"|capfirst %}</button>
+    </p>
+{% endif %}
+{% endblock content %}

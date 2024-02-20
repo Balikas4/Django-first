@@ -1,7 +1,10 @@
+from typing import Any
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth import get_user_model
 from django.http import HttpRequest, HttpResponse
 from django.views import generic
+from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -11,11 +14,20 @@ from . import models
 class WardrobeListView(generic.ListView):
     model = models.Wardrobe
     template_name = 'wardrobes/wardrobe_list.html'
-
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        if self.request.GET.get('owner'):
+            queryset = queryset.filter(owner__username=self.request.GET.get('owner'))
+        return queryset
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['user_list'] = get_user_model().objects.all()
+        return context
 
 class WardrobeDetailView(generic.DetailView):
     model = models.Wardrobe
-    template_name = 'wardrobes/details.html'
+    template_name = 'wardrobes/wardrobe_details.html'
     
     @staticmethod
     def wardrobe_for_sale(request: HttpRequest, pk:int) -> HttpResponse:
@@ -31,6 +43,23 @@ class WardrobeDetailView(generic.DetailView):
         return redirect('wardrobe_list')
 
 
+class WardrobeUpdateView(
+        LoginRequiredMixin, 
+        UserPassesTestMixin, 
+        generic.UpdateView
+    ):
+    model = models.Wardrobe
+    template_name = 'wardrobes/wardrobe_update.html'
+    fields = ('name', 'is_for_sale')
+
+    def get_success_url(self) -> str:
+        messages.success(self.request, _('wardrobe updated successfully').capitalize())
+        return reverse('wardrobe_list')
+
+    def test_func(self) -> bool | None:
+        return self.get_object().owner == self.request.user
+
+
 class WardrobeCreateView(LoginRequiredMixin, generic.CreateView):
     model = models.Wardrobe
     template_name = 'wardrobes/wardrobe_create.html'
@@ -38,11 +67,27 @@ class WardrobeCreateView(LoginRequiredMixin, generic.CreateView):
 
     def get_success_url(self) -> str:
         messages.success(self.request, _('wardrobe created successfully').capitalize())
-        return reverse('wardrobe_create')
+        return reverse('wardrobe_list')
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+
+class WardrobeDeleteView(
+        LoginRequiredMixin, 
+        UserPassesTestMixin, 
+        generic.DeleteView
+    ):
+    model = models.Wardrobe
+    template_name = 'wardrobes/wardrobe_delete.html'
+
+    def get_success_url(self) -> str:
+        messages.success(self.request, _('wardrobe deleted successfully').capitalize())
+        return reverse('wardrobe_list')
+
+    def test_func(self) -> bool | None:
+        return self.get_object().owner == self.request.user
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -59,7 +104,7 @@ def rental_list(request: HttpRequest) -> HttpResponse:
     })
 
 def listing_details(request: HttpRequest, pk: int) -> HttpResponse:
-    return render(request, 'listings/details.html', {
+    return render(request, 'listings/wardrobe_details.html', {
         'listing': get_object_or_404(models.Listing, pk=pk)
     })
 
