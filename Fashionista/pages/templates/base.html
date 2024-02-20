@@ -30,6 +30,16 @@
                 <li><a href="{% url 'signup' %}">{% trans "sign up"|capfirst %}</a></li>
             {% endif %}
         </ul>
+    </header>
+    <section class="messages">
+        {% for message in messages %}
+            <p class="message message-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </section>
+    <main>{% block content %}{% endblock %}</main>
+    <footer>
+        {% block footer %}{% endblock footer %}
+        <p>&copy; 2023-2024 <a href="https://www.google.com/" target="_blank">{% trans "Do your own research" %}</a></p>
         <form action="{% url 'set_language' %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ redirect_to }}">
@@ -41,16 +51,6 @@
                 {% endfor %}
             </select>
         </form>
-    </header>
-    <section class="messages">
-        {% for message in messages %}
-            <p class="message message-{{ message.tags }}">{{ message }}</p>
-        {% endfor %}
-    </section>
-    <main>{% block content %}{% endblock %}</main>
-    <footer>
-        {% block footer %}{% endblock footer %}
-        <p>&copy; 2023-2024 <a href="https://www.google.com/" target="_blank">{% trans "Do your own research" %}</a></p>
     </footer>
 </body>
 </html>
