@@ -98,15 +98,35 @@ def index(request: HttpRequest) -> HttpResponse:
     }
     return render(request, 'listings/index.html', context)
 
-def rental_list(request: HttpRequest) -> HttpResponse:
-    return render(request, 'listings/rental_list.html', {
-        'rental_list': models.Listing.objects.all()
-    })
+# def rental_list(request: HttpRequest) -> HttpResponse:
+#     return render(request, 'listings/rental_list.html', {
+#         'rental_list': models.Listing.objects.all()
+#     })
 
-def listing_details(request: HttpRequest, pk: int) -> HttpResponse:
-    return render(request, 'listings/wardrobe_details.html', {
-        'listing': get_object_or_404(models.Listing, pk=pk)
-    })
+def rental_list(request: HttpRequest) -> HttpResponse:
+    queryset = models.Listing.objects
+    owner_username = request.GET.get('owner')
+    if owner_username:
+        owner = get_object_or_404(get_user_model(), username=owner_username)
+        queryset = queryset.filter(owner=owner)
+        wardrobes = models.Wardrobe.objects.filter(owner=owner)
+    elif request.user.is_authenticated:
+        wardrobes = models.Wardrobe.objects.filter(owner=request.user)
+    else:
+        wardrobes = models.Wardrobe.objects
+    wardrobe_pk = request.GET.get('wardrobe_pk')
+    if wardrobe_pk:
+        wardrobe = get_object_or_404(models.Wardrobe, pk=wardrobe_pk)
+        queryset = queryset.filter(wardrobe=wardrobe)
+    search_name = request.GET.get('search_name')
+    if search_name:
+        queryset = queryset.filter(name__icontains=search_name)
+    context = {
+        'rental_list': queryset.all(),
+        'wardrobe_list': wardrobes.all(),
+        'user_list': get_user_model().objects.all().order_by('username'),
+    }
+    return render(request, 'listings/rental_list.html', context)
 
 def listing_available(request: HttpRequest, pk:int) -> HttpResponse:
     listing = get_object_or_404(models.Listing, pk=pk)
@@ -119,6 +139,11 @@ def listing_available(request: HttpRequest, pk:int) -> HttpResponse:
         _('available') if listing.is_available else _('unavailable'),
     ))
     return redirect(rental_list)
+
+def listing_details(request: HttpRequest, pk: int) -> HttpResponse:
+    return render(request, 'listings/listing_details.html', {
+        'listing': get_object_or_404(models.Listing, pk=pk)
+    })
 
 def main_page(request):
     # Add any logic you want for the main page view

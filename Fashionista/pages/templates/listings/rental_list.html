@@ -3,6 +3,25 @@
 {% block title %}{{ block.super }} list{% endblock title %}
 {% block content %}
 <h1>{% trans "Listings" %}</h1>
+<div class="toolbar">
+    {% comment %} <a class="button" href="{% url "project_create" %}">{% trans "create new"|title %}</a> {% endcomment %}
+    <form method="get" action="{{ request.path }}">
+        <select name="owner" onchange="this.form.submit();">
+            <option value="">{% trans "filter by owner"|capfirst %}</option>
+            {% for user in user_list %}
+                <option value="{{ user.username }}" {% if user.username == request.GET.owner %}selected{% endif %}>{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</option>
+            {% endfor %}
+        </select>
+        <select name="wardrobe_pk" onchange="this.form.submit();">
+            <option value="">{% trans "filter by wardrobe"|capfirst %}</option>
+            {% for wardrobe in wardrobe_list %}
+                <option value="{{ wardrobe.pk }}" {% if wardrobe.pk|slugify == request.GET.wardrobe_pk %}selected{% endif %}>{{ wardrobe.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="search_name" value="{{ request.GET.search_name }}" placeholder="search by name...">
+        <button type="submit">&#128269;</button>
+    </form>
+</div>
 <ul>
 {% for listing in rental_list %}
 <li><a href="{% url "is_available" listing.pk %}">
