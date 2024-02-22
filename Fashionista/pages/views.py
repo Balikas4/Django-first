@@ -147,8 +147,7 @@ def listing_details(request: HttpRequest, pk: int) -> HttpResponse:
     })
 
 def main_page(request):
-    # Add any logic you want for the main page view
-    return render(request, 'main_page.html')  # Assuming you have a main_page.html template
+    return render(request, 'main_page.html')
 
 @login_required
 def listing_create(request: HttpRequest) -> HttpResponse:
@@ -162,3 +161,26 @@ def listing_create(request: HttpRequest) -> HttpResponse:
     else:
         form = forms.ListingForm
     return render(request, 'listings/listing_create.html', {'form': form})
+
+@login_required
+def listing_update(request: HttpRequest, pk: int) -> HttpResponse:
+    listing = get_object_or_404(models.Listing, pk=pk, owner=request.user)
+    if request.method == "POST":
+        form = forms.ListingForm(request.POST, instance=listing)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("listings edited successfully"))
+            return redirect('listing_details', pk=pk)
+    else:
+        form = forms.ListingForm(instance=listing)
+    form.fields['wardrobe'].queryset = form.fields['wardrobe'].queryset.filter(owner=request.user)
+    return render(request, 'listings/listing_update.html', {'form': form})
+
+@login_required
+def listing_delete(request: HttpRequest, pk: int) -> HttpResponse:
+    listing = get_object_or_404(models.Listing, pk=pk, owner=request.user)
+    if request.method == "POST":
+        listing.delete()
+        messages.success(request, _("listing deleted successfully"))
+        return redirect('rental_list')
+    return render(request, 'listings/listing_delete.html', {'listing': listing})
