@@ -2,13 +2,14 @@ from typing import Any
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.views import generic
 from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from . import models
+from . import models , forms
 
 
 class WardrobeListView(generic.ListView):
@@ -148,3 +149,16 @@ def listing_details(request: HttpRequest, pk: int) -> HttpResponse:
 def main_page(request):
     # Add any logic you want for the main page view
     return render(request, 'main_page.html')  # Assuming you have a main_page.html template
+
+@login_required
+def listing_create(request: HttpRequest) -> HttpResponse:
+    if request.method == "POST":
+        form = forms.ListingForm(request.POST)
+        if form.is_valid():
+            form.instance.owner = request.user
+            form.save()
+            messages.success(request, _("listing created successfully").capitalize())
+            return redirect('rental_list')
+    else:
+        form = forms.ListingForm
+    return render(request, 'listings/listing_create.html', {'form': form})

@@ -4,7 +4,7 @@
 {% block content %}
 <h1>{% trans "Listings" %}</h1>
 <div class="toolbar">
-    {% comment %} <a class="button" href="{% url "project_create" %}">{% trans "create new"|title %}</a> {% endcomment %}
+    <a class="button" href="{% url "listing_create" %}">{% trans "create new"|title %}</a>
     <form method="get" action="{{ request.path }}">
         <select name="owner" onchange="this.form.submit();">
             <option value="">{% trans "filter by owner"|capfirst %}</option>

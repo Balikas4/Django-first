@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.main_page, name='main_page'),
     path('dashboard/', views.index, name='index'),
     path('listings/', views.rental_list, name='rental_list'),
+    path('listing/create/', views.listing_create, name='listing_create'),
     path('listing/<int:pk>/', views.listing_details, name='listing_details'),
     path('listing/<int:pk>/done/', views.listing_available, name='is_available'),
     path('wardrobe/<int:pk>/available/', views.WardrobeDetailView.wardrobe_for_sale, name='is_for_sale'),
