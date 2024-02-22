@@ -122,23 +122,30 @@ def rental_list(request: HttpRequest) -> HttpResponse:
     search_name = request.GET.get('search_name')
     if search_name:
         queryset = queryset.filter(name__icontains=search_name)
+    next = request.path + '?' + '&'.join([f"{key}={value}" for key, value in request.GET.items()])
     context = {
         'rental_list': queryset.all(),
         'wardrobe_list': wardrobes.all(),
         'user_list': get_user_model().objects.all().order_by('username'),
+        'next': next,
     }
     return render(request, 'listings/rental_list.html', context)
 
 def listing_available(request: HttpRequest, pk:int) -> HttpResponse:
     listing = get_object_or_404(models.Listing, pk=pk)
-    listing.is_available = not listing.is_available
-    listing.save()
-    messages.success(request, "{} {} {} {}".format(
-        _('listing').capitalize(),
-          listing.name,
-        _('marked as'),
-        _('available') if listing.is_available else _('unavailable'),
-    ))
+    if request.user in [listing.owner, listing.wardrobe.owner]:
+        listing.is_available = not listing.is_available
+        listing.save()
+        messages.success(request, "{} {} {} {}".format(
+            _('listing').capitalize(),
+            listing.name,
+            _('marked as'),
+            _('available') if listing.is_available else _('unavailable'),
+        ))
+    else:
+        messages.error(request, "{}: {}".format(_("permission error").title(), _("you must be the owner of either the listing and the wardrobe"),))
+    if request.GET.get("next"):
+        return redirect(request.GET.get("next"))
     return redirect(rental_list)
 
 def listing_details(request: HttpRequest, pk: int) -> HttpResponse:

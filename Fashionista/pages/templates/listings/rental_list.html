@@ -24,7 +24,7 @@
 </div>
 <ul>
 {% for listing in rental_list %}
-<li><a href="{% url "is_available" listing.pk %}">
+<li><a href="{% url "is_available" listing.pk %}?next={{ next|urlencode }}">
     {% if listing.is_available %}&#x2611;{% else %}&#x2610;{% endif %}</a>
     <a href="{% url "listing_details" listing.pk %}">{{ listing.name }}</a>
     <span style="float:right;">{{ listing.price }}</span>
