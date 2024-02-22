@@ -90,19 +90,69 @@ class WardrobeDeleteView(
     def test_func(self) -> bool | None:
         return self.get_object().owner == self.request.user
 
+User = get_user_model()
+
+# def index(request: HttpRequest) -> HttpResponse:
+#     context = {
+#         'listings_count': models.Listing.objects.count(),
+#         'wardrobes_count': models.Wardrobe.objects.count(),
+#         'users_count': models.get_user_model().objects.count(),
+#     }
+#     return render(request, 'listings/index.html', context)
 
 def index(request: HttpRequest) -> HttpResponse:
+    listings = models.Listing.objects
+    unavailable_listings = listings.filter(is_available=False)
+    common_dashboard = [
+        (_('users').title(), User.objects.count()),
+        (
+            _('wardrobes').title(), 
+            models.Wardrobe.objects.count(), 
+            reverse('wardrobe_list'),
+        ),
+        (
+            _('listings').title(), 
+            listings.count(), 
+            reverse('rental_list'),
+        ),
+        (
+            _('unavailable listings').title(), 
+            unavailable_listings.count(),
+        ),
+        (
+            _('available listings').title(), 
+            listings.filter(is_available=True).count(),
+        ),
+    ]
+    if request.user.is_authenticated:
+        user_listings = listings.filter(owner=request.user)
+        user_unavailable_listings = user_listings.filter(is_available=False)
+        user_dashboard = [
+            (
+                _('wardrobes').title(), 
+                models.Wardrobe.objects.filter(owner=request.user).count(), 
+                reverse('wardrobe_list') + f"?owner={request.user.username}",
+            ),
+            (
+                _('listings').title(), 
+                user_listings.count(),
+                reverse('rental_list') + f"?owner={request.user.username}",
+            ),
+            (
+                _('unavailable listings').title(), 
+                user_unavailable_listings.count(),
+            ),
+        ]
+        unavailable_listings = user_unavailable_listings.all()[:5]
+    else:
+        user_dashboard = None
+        unavailable_listings = unavailable_listings.all()[:5]
     context = {
-        'listings_count': models.Listing.objects.count(),
-        'wardrobes_count': models.Wardrobe.objects.count(),
-        'users_count': models.get_user_model().objects.count(),
+        'common_dashboard': common_dashboard,
+        'user_dashboard': user_dashboard,
+        'unavailable_listings': unavailable_listings,
     }
     return render(request, 'listings/index.html', context)
-
-# def rental_list(request: HttpRequest) -> HttpResponse:
-#     return render(request, 'listings/rental_list.html', {
-#         'rental_list': models.Listing.objects.all()
-#     })
 
 def rental_list(request: HttpRequest) -> HttpResponse:
     queryset = models.Listing.objects

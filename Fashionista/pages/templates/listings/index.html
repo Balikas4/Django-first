@@ -2,7 +2,37 @@
 {% load i18n %}
 {% block content %}
     <h1>{% trans "Dashboard" %}</h1>
-    <p>{% trans "Users" %}: {{ users_count }}</p>
-    <p>{% trans "Listings" %}: {{ listings_count }}</p>
-    <p>{% trans "Wardrobes" %}: {{ wardrobes_count }}</p>
+    <ul class="dashboard">
+        {% for metric in common_dashboard %}
+        <li>{% if metric.2 %}<a href="{{ metric.2}}">{% endif %}
+            <h3>{{ metric.0 }}</h3>
+            <span class="stat">{{ metric.1 }}</span>
+        {% if metric.2 %}</a>{% endif %}</li>
+        {% endfor %}
+    </ul>
+    <h2>{% trans "user dashboard"|title %}</h2>
+    <ul class="dashboard">
+        {% for metric in user_dashboard %}
+        <li>{% if metric.2 %}<a href="{{ metric.2}}">{% endif %}
+            <h3>{{ metric.0 }}</h3>
+            <span class="stat">{{ metric.1 }}</span>
+        {% if metric.2 %}</a>{% endif %}</li>
+        {% empty %}
+        <li>
+            <h3>{% trans "login required" %}</h3>
+            <span class="stat">{% trans "nothing here" %}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    <h2>{% trans "your unavailable listings"|title %}</h2>
+    <ul>
+    {% for listing in unavailable_listings %}
+        <li><a href="{% url "is_available" listing.pk %}?next={{ "/"|urlencode }}">&#x2610;</a>
+            <a href="{% url "listing_details" listing.pk %}?next={{ "/"|urlencode }}">{{ listing.name }}</a>
+            <span style="float:right;">{{ listings.price }}</span>
+        </li>
+    {% empty %}
+        <li>{% trans "all available for now"|capfirst %}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}
